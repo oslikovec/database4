@@ -10,6 +10,28 @@ dotenv.config();
 const { Pool } = pkg;
 
 // ==============================
+// 🌍 CORS konfigurace
+// ==============================
+import cors from "cors";
+
+const allowedOrigins = [
+  "https://status-production-53d8.up.railway.app",
+  "http://localhost:3000" // pro testování lokálně
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("CORS blokován pro origin: " + origin));
+    }
+  },
+  credentials: true,
+}));
+
+
+// ==============================
 // 💾 PostgreSQL připojení (Railway poskytuje DATABASE_URL)
 // ==============================
 const pool = new Pool({
