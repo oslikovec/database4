@@ -117,9 +117,23 @@ app.post("/api/members", async (req, res) => {
   }
 });
 
+// 🔥 Odebrání člena
 app.delete("/api/members/:id", async (req, res) => {
   try {
-    await pool.query("DELETE FROM members WHERE id=$1", [req.params.id]);
+    const { id } = req.params;
+    await pool.query("DELETE FROM members WHERE id = $1", [id]);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ⚙️ Toggle admin status
+app.patch("/api/members/:id/admin", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { admin } = req.body;
+    await pool.query("UPDATE members SET admin = $1 WHERE id = $2", [admin, id]);
     res.json({ success: true });
   } catch (err) {
     res.status(500).json({ error: err.message });
