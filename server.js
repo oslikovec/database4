@@ -12,7 +12,6 @@ const { Pool } = pkg;
 // ==============================
 // 🌍 CORS konfigurace
 // ==============================
-import cors from "cors";
 
 const allowedOrigins = [
   "https://status-production-53d8.up.railway.app",
