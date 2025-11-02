@@ -1,5 +1,5 @@
 // ==============================
-// 🔴 Red Roof Company – Integrace Backend (Members, Weapons, Cars, Finance)
+// 🔴 Red Roof Company – Integrace Backend
 // ==============================
 import express from "express";
 import cors from "cors";
@@ -10,12 +10,13 @@ dotenv.config();
 const { Pool } = pkg;
 
 // ==============================
-// 🌍 CORS konfigurace
+// ⚙️ Express + CORS konfigurace
 // ==============================
+const app = express();
 
 const allowedOrigins = [
   "https://status-production-53d8.up.railway.app",
-  "http://localhost:3000" // pro testování lokálně
+  "http://localhost:3000"
 ];
 
 app.use(cors({
@@ -29,14 +30,17 @@ app.use(cors({
   credentials: true,
 }));
 
+app.use(express.json());
 
 // ==============================
-// 💾 PostgreSQL připojení (Railway poskytuje DATABASE_URL)
+// 💾 PostgreSQL připojení
 // ==============================
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false },
 });
+
+
 
 // Inicializace tabulek
 async function initTables() {
@@ -91,12 +95,7 @@ async function initTables() {
 }
 initTables();
 
-// ==============================
-// ⚙️ Express konfigurace
-// ==============================
-const app = express();
-app.use(cors());
-app.use(express.json());
+
 
 // ==============================
 // 🧭 Test endpoint
