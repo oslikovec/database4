@@ -15,7 +15,7 @@ const { Pool } = pkg;
 const app = express();
 
 const allowedOrigins = [
-  "https://redroofcomp.up.railway.app/",
+  "https://redroofcomp.up.railway.app",
   "http://localhost:3000"
 ];
 
