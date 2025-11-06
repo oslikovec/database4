@@ -274,6 +274,26 @@ app.get("/api/finance/transactions", async (req, res) => {
 });
 
 // ==============================
+// 🕓 NOVÍ ČLENOVÉ (posledních 7 dní)
+// ==============================
+app.get("/api/members/recent", async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT name, role, admin, added_at
+      FROM members
+      WHERE added_at >= NOW() - INTERVAL '7 days'
+      ORDER BY added_at DESC
+    `);
+
+    res.json(result.rows);
+  } catch (err) {
+    console.error("❌ Chyba při načítání nových členů:", err.message);
+    res.status(500).json({ error: "Chyba při načítání nových členů" });
+  }
+});
+
+
+// ==============================
 // 🚀 SERVER START
 // ==============================
 const PORT = process.env.PORT || 3000;
